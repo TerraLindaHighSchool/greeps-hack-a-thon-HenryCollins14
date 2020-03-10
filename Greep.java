@@ -42,24 +42,35 @@ public class Greep extends Creature
                 move();
             }
         }
-        else {
-            move();
+        else 
+        {
             checkFood();
+            atWorldEdge();
         }
     }
     
     /**
-     * Is there any food here where we are? If so, try to load some!
+    * Is there any food here where we are? If so, try to load some!
      */
     public void checkFood()
     {
         // check whether there's a tomato pile here
         TomatoPile tomatoes = (TomatoPile) getOneIntersectingObject(TomatoPile.class);
         if (tomatoes != null) {
+            callGreeps();
             loadTomato();
-            // Note: this attempts to load a tomato onto *another* Greep. It won't
-            // do anything if we are alone here.
         }
+        else
+        {
+            move();
+        }
+    }
+    
+    public void callGreeps()
+    {
+        int dX = this.getX() - getX();
+        int dY = this.getY() - getY();
+        setRotation((int) (180 * Math.atan2(dY, dX) / Math.PI));
     }
 
     /**
